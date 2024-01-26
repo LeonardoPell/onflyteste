@@ -1,10 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Isub } from './interfaces/payload.interface';
+import { UserService } from 'src/modules/user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly _userService: UserService
+  ) {}
 
   async generateToken(userId: number): Promise<string> {
     const payload = { sub: {userId} };
@@ -12,6 +16,11 @@ export class AuthService {
   }
 
   async validateUser(sub: Isub): Promise<boolean> {
-    return true;
+    try {
+      await this._userService.findOneById(sub.userId);
+      return true;
+    } catch (error) {
+      throw new UnauthorizedException();
+    }
   }
 }
