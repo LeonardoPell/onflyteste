@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Isub } from './interfaces/payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -10,7 +11,7 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  async validateUser(payload: any): Promise<any> {
-    return { userId: payload.sub, username: 'username' };
+  async validateUser(sub: Isub): Promise<boolean> {
+    return true;
   }
 }
