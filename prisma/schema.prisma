@@ -15,7 +15,7 @@ model User {
 
 model Expense {
   id          Int      @id @default(autoincrement())
-  description String   @length(191)
+  description String   @db.VarChar(191)
   date        DateTime
   amount      Float
   user        User     @relation(fields: [userId], references: [id])
