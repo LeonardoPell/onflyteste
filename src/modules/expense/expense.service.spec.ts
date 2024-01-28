@@ -1,55 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ExpenseService } from './expense.service';
 import { PrismaService } from 'src/prisma-module/prisma.service';
-import { Expense } from '@prisma/client';
 import { HttpException, NotFoundException } from '@nestjs/common';
-import { Isub } from 'src/auth/interfaces/payload.interface';
-import { CreateExpenseDto } from './dto/create.expense.dto';
-import UpdateExpenseDto from './dto/update.expense.dto';
+import { expenseList, authData, expenseToCreate, expenseToEdit, updatedExpense } from './mock-data/mock-data';
 
 describe('ExpenseService', () => {
   let service: ExpenseService;
   let prisma: PrismaService;
 
-  const expenseList: Expense[] = [
-    {
-      id: 1,
-      description: "Expense description",
-      date: new Date("2024-01-28T12:00:00.000Z"),
-      amount: 20,
-      userId: 1,
-    },
-    {
-      id: 2,
-      description: "Expense description",
-      date: new Date("2024-01-28T12:00:00.000Z"),
-      amount: 20,
-      userId: 1,
-    },
-    {
-      id: 3,
-      description: "Expense description",
-      date: new Date("2024-01-28T12:00:00.000Z"),
-      amount: 20,
-      userId: 1,
-    },
-  ];
-
-  const authData: Isub = {
-    userId: 1
-  }
-
-  const expenseToCreate: CreateExpenseDto = {
-    description: "Expense description",
-    date: new Date("2024-01-28T12:00:00.000Z"),
-    amount: 20,
-  }
-
-  const expenseToEdit: UpdateExpenseDto = {
-    description: "updated description",
-  }
-
-  const updatedExpense = Object.assign({...expenseList[0]},expenseToEdit);
+  
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
