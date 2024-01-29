@@ -64,7 +64,7 @@ DELETE: http://localhost:3000/expense/${expenseId} - Deletar uma despesa.
 
 Ao cadastrar uma despesa, será enviado um e-mail para o usuário vinculado. O e-mail será enviado para o endereço "onflytesteleonardo@gmail.com". Se desejar receber o e-mail em um endereço diferente, edite o e-mail do usuário no banco de dados, pois não foi criado rota para adicionar usuarios.
 
-## Envio de E-mail:
+## Testes Unitarios:
 
 para os testes unitarios, basta rodar o comando
 
