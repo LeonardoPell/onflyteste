@@ -10,6 +10,7 @@ export class MailService {
     async sendMail(mailData: ImailData) {
       try {
         await this._mailerService.sendMail(mailData);
+        return true;
       } catch (error) {
         throw new Error(error);
       }
