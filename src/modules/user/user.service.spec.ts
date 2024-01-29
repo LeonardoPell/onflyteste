@@ -10,7 +10,8 @@ describe('UserService', () => {
 
   const mockUser: User = {
     id: 1,
-    name: 'onflyUser'
+    name: 'onflyUser',
+    email: 'onflytesteleonardo@gmail.com'
   }
 
   beforeEach(async () => {

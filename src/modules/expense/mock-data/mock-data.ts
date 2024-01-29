@@ -28,7 +28,8 @@ export const expenseList: Expense[] = [
   ];
 
   export const authData: Isub = {
-    userId: 1
+    userId: 1,
+    userEmail: 'onflytesteleonardo@gmail.com'
   }
 
   export const expenseToCreate: CreateExpenseDto = {

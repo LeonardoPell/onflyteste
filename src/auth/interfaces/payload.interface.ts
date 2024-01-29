@@ -6,4 +6,5 @@ export default interface Ipayload{
 
 export interface Isub{
   userId: number;
+  userEmail: string;
 }
