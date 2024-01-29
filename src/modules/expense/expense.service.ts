@@ -6,11 +6,17 @@ import { CreateExpenseDto } from './dto/create.expense.dto';
 import { Isub } from 'src/auth/interfaces/payload.interface';
 import { Iexpense, expenseInterfaceMap } from './interfaces/expense.interface';
 import UpdateExpenseDto from './dto/update.expense.dto';
+import { MailService } from 'src/core/mail/mail.service';
+import { returnMailDataDefault } from 'src/core/mail/data/mail.data';
+import { htmlMailData } from './mail-html/mail-html.data';
 
 @Injectable()
 export class ExpenseService {
 
-    constructor(private _prismaService: PrismaService){}
+    constructor(
+        private _prismaService: PrismaService,
+        private _mailService: MailService
+    ){}
 
     async findAllExpenses(userId: number): Promise<Expense[]>{
         try {
@@ -39,6 +45,13 @@ export class ExpenseService {
         const expenseData: Iexpense = expenseInterfaceMap(createExpenseDto,Number(authdata.userId));
         try {
             const expenseCreate = await this._prismaService.expense.create({data: expenseData as Expense});
+
+            const mailData = returnMailDataDefault(authdata, {
+                subject: 'Expense create successfully!',
+                html: htmlMailData
+            });
+
+            await this._mailService.sendMail(mailData);
 
             return expenseCreate;
         } catch (error) {
