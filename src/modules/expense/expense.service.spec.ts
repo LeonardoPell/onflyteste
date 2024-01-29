@@ -3,10 +3,12 @@ import { ExpenseService } from './expense.service';
 import { PrismaService } from 'src/prisma-module/prisma.service';
 import { HttpException, NotFoundException } from '@nestjs/common';
 import { expenseList, authData, expenseToCreate, expenseToEdit, updatedExpense } from './mock-data/mock-data';
+import { MailService } from 'src/core/mail/mail.service';
 
 describe('ExpenseService', () => {
   let service: ExpenseService;
   let prisma: PrismaService;
+  let mail: MailService;
 
   
 
@@ -24,17 +26,25 @@ describe('ExpenseService', () => {
               delete: jest.fn().mockResolvedValue(expenseList[0]),
             }
           }
+        },
+        {
+          provide: MailService,
+          useValue: {
+            sendMail: jest.fn().mockResolvedValue(true)
+          }
         }
       ],
     }).compile();
 
     service = module.get<ExpenseService>(ExpenseService);
     prisma = module.get<PrismaService>(PrismaService);
+    mail = module.get<MailService>(MailService);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
     expect(prisma).toBeDefined();
+    expect(mail).toBeDefined();
   });
 
   describe('findAllExpenses', () => {
@@ -57,6 +67,7 @@ describe('ExpenseService', () => {
       const result = await service.createExpense(expenseToCreate,authData);
 
       expect(prisma.expense.create).toHaveBeenCalledTimes(1);
+      expect(mail.sendMail).toHaveBeenCalledTimes(1);
       expect(result).toEqual(expenseList[0]);
     });
 
